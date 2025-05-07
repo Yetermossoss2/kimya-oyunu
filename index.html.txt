@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kimyasal Tepkimeler Eşleştirme Oyunu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Kimyasal Tepkimeler Eşleştirme Oyunu</h1>
+    <div id="game-board" class="game-board">
+        <!-- Kartlar burada yer alacak -->
+    </div>
+    <button id="restart-btn">Yeniden Başlat</button>
+
+    <script src="script.js"></script>
+</body>
+</html>

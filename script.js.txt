@@ -1,0 +1,81 @@
+const cards = [
+    { id: 1, text: "Yanma Tepkimesi", match: "A + O2 → CO2 + H2O" },
+    { id: 2, text: "Asit-Baz Tepkimesi", match: "HCl + NaOH → NaCl + H2O" },
+    { id: 3, text: "Sentez Tepkimesi", match: "2H2 + O2 → 2H2O" },
+    { id: 4, text: "Değişim Tepkimesi", match: "AgNO3 + NaCl → AgCl + NaNO3" },
+    { id: 5, text: "Çürümek (Bozunma)", match: "CaCO3 → CaO + CO2" },
+    { id: 6, text: "Redüksiyon", match: "CuO + H2 → Cu + H2O" },
+    { id: 7, text: "Asidik Tepkime", match: "H2SO4 + NaOH → Na2SO4 + H2O" },
+    { id: 8, text: "Tepkime Ürünleri", match: "2Na + Cl2 → 2NaCl" }
+];
+
+let flippedCards = [];
+let matchedCards = 0;
+
+const gameBoard = document.getElementById("game-board");
+const restartBtn = document.getElementById("restart-btn");
+
+// Oyun kartlarını oluştur
+function createCard(card) {
+    const cardElement = document.createElement("div");
+    cardElement.classList.add("card");
+    cardElement.dataset.id = card.id;
+
+    cardElement.addEventListener("click", () => flipCard(cardElement, card));
+
+    gameBoard.appendChild(cardElement);
+}
+
+// Kartları karıştır
+function shuffleCards() {
+    const shuffledCards = [...cards, ...cards];
+    shuffledCards.sort(() => Math.random() - 0.5);
+    return shuffledCards;
+}
+
+// Kartları çevirmek
+function flipCard(cardElement, card) {
+    if (flippedCards.length === 2 || cardElement.classList.contains("flipped")) return;
+
+    cardElement.classList.add("flipped");
+    cardElement.textContent = card.text;
+
+    flippedCards.push({ cardElement, card });
+
+    if (flippedCards.length === 2) {
+        checkMatch();
+    }
+}
+
+// Kart eşleşmesini kontrol et
+function checkMatch() {
+    const [firstCard, secondCard] = flippedCards;
+    if (firstCard.card.match === secondCard.card.match) {
+        matchedCards++;
+        flippedCards = [];
+        if (matchedCards === cards.length) {
+            alert("Tebrikler, tüm kartları eşleştirdiniz!");
+        }
+    } else {
+        setTimeout(() => {
+            firstCard.cardElement.classList.remove("flipped");
+            secondCard.cardElement.classList.remove("flipped");
+            flippedCards = [];
+        }, 1000);
+    }
+}
+
+// Oyunu başlat
+function startGame() {
+    matchedCards = 0;
+    flippedCards = [];
+    gameBoard.innerHTML = "";
+    const shuffledCards = shuffleCards();
+    shuffledCards.forEach(createCard);
+}
+
+// Yeniden başlatma
+restartBtn.addEventListener("click", startGame);
+
+// Oyunu başlat
+startGame();
